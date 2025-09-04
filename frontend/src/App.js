@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // react hooks 
 import AddTask from "./components/AddTask";
 import TaskList from "./components/TaskList";
 
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  // Fetch tasks on mount
+  // Fetch tasks on mount (when the component loads first on the screen)
   useEffect(() => {
     fetch("http://127.0.0.1:5000/tasks")
       .then(res => res.json())
@@ -14,7 +14,8 @@ function App() {
   }, []);
 
   // Add a new task
-  const addTask = async (title) => {
+  // A function to add a new task by sending a POST request to the backend
+  const addTask = async (title) => {    // a variable that holds a function using async so you can use await which is when it waits for the fetch to complete before moving on, (title) is a parameter that represents the title of the new task to be added
     try {
       const res = await fetch("http://127.0.0.1:5000/tasks", {
         method: "POST",
@@ -51,17 +52,19 @@ function App() {
     setTasks(tasks.filter(t => t.id !== id));
   };
 
-  // ✅ Return JSX
+  // Return JSX
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
   <h1 className="text-4xl font-extrabold mb-8 text-blue-600">Task Tracker</h1>
   <div className="w-full max-w-md">
-    <AddTask addTask={addTask} />
+    <AddTask addTask={addTask} /> 
     <TaskList tasks={tasks} toggleTask={toggleTask} deleteTask={deleteTask} />
   </div>
 </div>
   );
 }
+//  ^^^  giving the AddTask component the addTask function as a prop
+
 
 
 
